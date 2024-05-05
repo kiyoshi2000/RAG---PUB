@@ -70,10 +70,10 @@ class QuestionAnswering:
         document_scores = self._tfidf_matrix.dot(query_tfidf_scores)
         sorted_indices = document_scores.argsort()[::-1][:k_docs]
 
-        doc_contents = [self._df["content"][i] for i in sorted_indices]
+        doc_contents = [self._df["html_content"][i] for i in sorted_indices]
         context = "\n".join(doc_contents)
 
-        lens = [len(self._df["content"][i]) for i in sorted_indices]
+        lens = [len(self._df["html_content"][i]) for i in sorted_indices]
         lens = np.cumsum([0] + lens)
 
         doc_ranges = [(i + k, j + k) for i, j, k in zip(lens, lens[1:], range(len(lens) - 1))]

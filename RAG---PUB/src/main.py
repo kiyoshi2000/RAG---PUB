@@ -1,4 +1,5 @@
 from chatbot.models import QuestionAnswering
+
 from chatbot.wrappers import AppendURLWrapper, MinimumCertaintyWrapper, AbsoluteAnswerWrapper, FetchEntireSentenceWrapper
 
 import os
@@ -28,16 +29,19 @@ def main():
     context_file = argv.context_file
     if context_file is None:
         parent_directory = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-        context_file = os.path.join(parent_directory, "assistance.sqlite3")
+        context_file = os.path.join(parent_directory, "pages.db")
 
     cnx = sqlite3.connect(context_file)
-    df = pd.read_sql_query("SELECT * FROM assistance", cnx)
+    df = pd.read_sql_query("SELECT * FROM PAGES", cnx)
 
+    
     wrappers = [
         (AppendURLWrapper, [], {}),
         (MinimumCertaintyWrapper, [0.05], {}),
         (AbsoluteAnswerWrapper, [], {}),
     ]
+
+ 
 
     interpreter = QuestionAnswering(df)
     for wrapper, args, kwargs in wrappers:
