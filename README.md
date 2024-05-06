@@ -1,4 +1,4 @@
-# Assistance Free ChatBot
+# Assistance ChatBot
 
 ## Installation
 
